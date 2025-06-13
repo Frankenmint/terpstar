@@ -10,7 +10,6 @@ export default async function StrainPage({ params }: { params: { id: string } })
     try {
       terpeneProfile = JSON.parse(strain.terpenes);
     } catch {
-      // malformed JSON, fallback to empty profile
       terpeneProfile = {};
     }
   }

@@ -7,39 +7,25 @@ export default function UploadPage() {
 
   const handleUpload = async () => {
     if (!file) return;
-    const text = await file.text();
-    try {
-      const json = JSON.parse(text);
-      const res = await fetch('/api/import-csv', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(json),
-      });
-      const data = await res.json();
-      if (res.ok) setMessage(`Imported ${data.inserted} entries.`);
-      else setMessage(`Error: ${data.error}`);
-    } catch (err) {
-      setMessage('Failed to parse file. Ensure it is valid JSON.');
-    }
+    const formData = new FormData();
+    formData.append('csv', file);
+
+    const res = await fetch('/api/upload-csv', { method: 'POST', body: formData });
+    const json = await res.json();
+    setMessage(json.message || 'Done');
   };
 
   return (
-    <div className="p-4 text-white">
-      <h1 className="text-xl font-bold mb-2">Import Strain Data (JSON)</h1>
-      <input
-        type="file"
-        accept="application/json"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-        className="mb-4 block"
-      />
+    <main className="p-6 text-white bg-black min-h-screen">
+      <h1 className="text-2xl font-bold mb-4">Upload CSV of Strains</h1>
+      <input type="file" accept=".csv" onChange={(e) => setFile(e.target.files?.[0] || null)} className="text-black" />
       <button
         onClick={handleUpload}
-        disabled={!file}
-        className="bg-green-600 px-4 py-2 rounded text-white disabled:opacity-50"
+        className="mt-4 px-4 py-2 bg-green-500 hover:bg-green-700 rounded"
       >
         Upload
       </button>
-      {message && <p className="mt-4 text-sm text-yellow-400">{message}</p>}
-    </div>
+      <p className="mt-4 text-green-400">{message}</p>
+    </main>
   );
 }
