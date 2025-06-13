@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
@@ -23,10 +24,12 @@ interface TerpPoint {
 interface Props {
   data: TerpPoint[];
   highlightId?: number;
+  onClickStrain?: (id: number) => void;
 }
 
-export default function TerpMapPlot({ data, highlightId }: Props) {
+export default function TerpMapPlot({ data, highlightId, onClickStrain }: Props) {
   const chartRef = useRef(null);
+  const router = useRouter();
 
   const chartData = {
     datasets: [
@@ -44,6 +47,14 @@ export default function TerpMapPlot({ data, highlightId }: Props) {
   };
 
   const options = {
+    onClick: (_e: any, elements: any[]) => {
+      if (elements.length > 0) {
+        const index = elements[0].index;
+        const strain = data[index];
+        if (onClickStrain) onClickStrain(strain.id);
+        else router.push(`/strain/${strain.id}`);
+      }
+    },
     scales: {
       x: { beginAtZero: false, ticks: { color: '#888' }, grid: { color: '#333' } },
       y: { beginAtZero: false, ticks: { color: '#888' }, grid: { color: '#333' } },
