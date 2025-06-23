@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import {
@@ -15,6 +15,7 @@ ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 interface TerpPoint {
   id: number;
   name: string;
+  slug: string;
   x: number;
   y: number;
   dominantTerpene: string;
@@ -52,7 +53,7 @@ export default function TerpMapPlot({ data, highlightId, onClickStrain }: Props)
         const index = elements[0].index;
         const strain = data[index];
         if (onClickStrain) onClickStrain(strain.id);
-        else router.push(`/strain/${strain.id}`);
+        else router.push(`/strain/${strain.slug}?highlightId=${strain.id}`);
       }
     },
     scales: {
@@ -94,6 +95,13 @@ export default function TerpMapPlot({ data, highlightId, onClickStrain }: Props)
           <h3 className="text-white text-md font-semibold">Legend</h3>
           <div className="grid grid-cols-2 gap-2">
             {terpeneLegend}
+          </div>
+          <div className="mt-4">
+            <p className="text-xs text-gray-400">Looking to buy? Visit <a className="text-blue-400 underline" href="https://dutchie.com" target="_blank" rel="noopener noreferrer">Dutchie</a>.</p>
+          </div>
+          <div className="mt-6 bg-gray-800 p-2 rounded text-sm text-white">
+            <p className="font-bold mb-1">🔥 Tip:</p>
+            <p>Earn profile badges by logging your top strains and matching effects. Leaderboard coming soon.</p>
           </div>
         </div>
       </div>
