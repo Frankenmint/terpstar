@@ -1,32 +1,32 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Strain {
-  id               Int      @id @default(autoincrement())
-  name             String   @unique
-  cannabinoids     Json
-  terpenes         Json
-  compositeProfile Json?
-  effects          String?
-  lineage          String?
-  family           String?
-  tags             Json
-  createdAt        DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  family      String?
+  effects     String?
+  lineage     String?
+  tags        Json     // keep as JSON array for now
+  cannabinoids Json    // flexible JSON blob
+  terpenes    Json     // flexible JSON blob
+  createdAt   DateTime @default(now())
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  image         String?
-  accounts      Account[]
-  lookupCount   Int       @default(0)
-  createdAt     DateTime  @default(now())
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  image       String?
+  accounts    Account[]
+  lookupCount Int       @default(0)
+  createdAt   DateTime  @default(now())
 }
 
 model Account {
@@ -35,10 +35,11 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  access_token      String?  @db.Text
+  access_token      String? 
   token_type        String?
   scope             String?
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
