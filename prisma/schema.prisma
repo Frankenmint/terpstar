@@ -10,10 +10,10 @@ datasource db {
 model Strain {
   id          Int      @id @default(autoincrement())
   name        String   @unique
+  slug        String   @unique
   family      String?
   effects     String?
   lineage     String?
-  slug        String   @unique
   tags        Json     // keep as JSON array for now
   cannabinoids Json    // flexible JSON blob
   terpenes    Json     // flexible JSON blob

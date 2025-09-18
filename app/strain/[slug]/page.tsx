@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import TerpRadar from '@/components/TerpRadar';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
-import DuchieLink from '@/components/DuchieLink';
+import DutchieLink from '@/components/DutchieLink';
 
 export default async function StrainPage({ params }: { params: { slug: string } }) {
   const strain = await prisma.strain.findUnique({ where: { slug: params.slug } });
@@ -35,7 +35,7 @@ export default async function StrainPage({ params }: { params: { slug: string } 
             <div>
               <strong>Lineage:</strong> {strain.lineage || 'N/A'}
             </div>
-            <DuchieLink strainName={strain.name} />
+            <DutchieLink strainName={strain.name} />
           </div>
 
           <div className="bg-zinc-900 rounded-xl p-4 shadow-lg">
