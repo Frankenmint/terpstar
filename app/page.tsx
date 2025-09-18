@@ -1,36 +1,19 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+// app/page.tsx
+import Link from "next/link";
 
-export default function SearchPage() {
-  const [strains, setStrains] = useState([]);
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    if (!query) return;
-    fetch(`/api/strain?query=${query}`)
-      .then(res => res.json())
-      .then(setStrains);
-  }, [query]);
-
+export default function HomePage() {
   return (
-    <div className="p-4 text-white">
-      <input
-        type="text"
-        placeholder="Search by keyword..."
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        className="p-2 bg-gray-900 border border-gray-600 w-full"
-      />
-      <ul className="mt-4 space-y-2">
-        {strains.map((s: any) => (
-          <li key={s.id}>
-            <Link href={`/strain/${s.id}`} className="underline">
-              {s.name} ({s.family})
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-6">
+      <h1 className="text-4xl font-bold">Welcome to TerpStar 🌿</h1>
+      <p className="text-gray-300">
+        Explore cannabis strains by terpene profiles, cannabinoids, and lineage.
+      </p>
+      <Link
+        href="/strains"
+        className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+      >
+        Browse Strains
+      </Link>
     </div>
   );
 }

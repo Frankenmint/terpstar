@@ -9,11 +9,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { query } = req.query;
       const strains = await prisma.strain.findMany({
         where: {
-          OR: [
-            { name: { contains: String(query), mode: 'insensitive' } },
-            { effects: { contains: String(query), mode: 'insensitive' } },
-            { tags: { has: String(query) } },
-            { family: { contains: String(query), mode: 'insensitive' } },
+  OR: [
+      { name: { contains: String(query) } },
+      { effects: { contains: String(query) } },
+      { tags: { has: String(query) } },
+      { family: { contains: String(query) } },
           ],
         },
       });
