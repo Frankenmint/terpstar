@@ -9,7 +9,7 @@ export default function HomePage() {
         Explore cannabis strains by terpene profiles, cannabinoids, and lineage.
       </p>
       <Link
-        href="/strains"
+        href="/strain"
         className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
       >
         Browse Strains
